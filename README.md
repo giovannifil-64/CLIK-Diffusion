@@ -1,10 +1,10 @@
-# CLIK-Diffusion: Clinical Knowledge-informed Diffusion Model for Tooth-Alignment
+# CLIK-Diffusion: Clinical Knowledge-informed Diffusion Model for Tooth Alignment
 
 [Yulong Dou](https://douyl.github.io/), [Han Wu](https://hanwu.website/), [Changjian Li](https://enigma-li.github.io/), [Chen Wang](https://www.igiplab.com/members/166), Tong Yang, Min Zhu, [Dinggang Shen](https://idea.bme.shanghaitech.edu.cn/), and [Zhiming Cui](https://shanghaitech-impact.github.io/).
 
 ### [Paper](https://authors.elsevier.com/a/1lYg74rfPmLfAq) | [Dataset](https://github.com/ShanghaiTech-IMPACT/CLIK-Diffusion/blob/main/Data_Access_Agreement.pdf)
 
-This is the official repository of our paper **CLIK-Diffusion: Clinical Knowledge-informed Diffusion Model for Tooth-Alignment** in **Medical Image Analysis (MedIA) 2025**. In this work, we formulate the complex problem of tooth alignment as a more manageable landmark transformation problem, which is further refined into a landmark coordinate generation task via diffusion model. To further encourage the integration of essential clinical knowledge, we design hierarchical constraints from three perspectives: dental-arch level, inter-tooth level, and individual-tooth level.
+This is the official repository of our paper **CLIK-Diffusion: Clinical Knowledge-informed Diffusion Model for Tooth Alignment** in **Medical Image Analysis (MedIA) 2025**. In this work, we formulate the complex problem of tooth alignment as a more manageable landmark transformation problem, which is further refined into a landmark coordinate generation task via diffusion model. To further encourage the integration of essential clinical knowledge, we design hierarchical constraints from three perspectives: dental-arch level, inter-tooth level, and individual-tooth level.
 
 ![](./image/CLIK-Diffusion.png)
 
@@ -20,7 +20,7 @@ This is the official repository of our paper **CLIK-Diffusion: Clinical Knowledg
 First clone this repo. And then set up an environment and install required packages.
 
 ```python
-git clone https://github.com/ShanghaiTech-IMPACT/CLIK-Diffusion-Clinical-Knowledge-informed-Diffusion-Model-for-Tooth-Alignment.git
+git clone https://github.com/ShanghaiTech-IMPACT/CLIK-Diffusion.git
 
 conda create -n tooth python=3.8
 conda activate tooth
@@ -35,7 +35,7 @@ We now only provide case-by-case code for testing. To test our model ——
 * We have prepared some data samples for you to start a quick test. The pre-orthodontic tooth meshes are stored in [`./Data`](./Data).
 * Run the following command:
     ```python
-    cd CLIK-Diffusion-Clinical-Knowledge-informed-Diffusion-Model-for-Tooth-Alignment
+    cd CLIK-Diffusion
     python Code/infer.py -i "./Data/275" -o "./Output"
     # add argument "-v" if you want see the results of landmark detection network
     ``` 
