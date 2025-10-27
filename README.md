@@ -2,7 +2,7 @@
 
 [Yulong Dou](https://douyl.github.io/), [Han Wu](https://hanwu.website/), [Changjian Li](https://enigma-li.github.io/), [Chen Wang](https://www.igiplab.com/members/166), Tong Yang, Min Zhu, [Dinggang Shen](https://idea.bme.shanghaitech.edu.cn/), and [Zhiming Cui](https://shanghaitech-impact.github.io/).
 
-### [Paper](https://authors.elsevier.com/a/1lYg74rfPmLfAq) | [Dataset](https://github.com/ShanghaiTech-IMPACT/CLIK-Diffusion/blob/main/Data_Access_Agreement.pdf)
+### [Paper](https://doi.org/10.1016/j.media.2025.103746) | [Dataset](https://github.com/ShanghaiTech-IMPACT/CLIK-Diffusion/blob/main/Data_Access_Agreement.pdf)
 
 This is the official repository of our paper **CLIK-Diffusion: Clinical Knowledge-informed Diffusion Model for Tooth Alignment** in **Medical Image Analysis (MedIA) 2025**. In this work, we formulate the complex problem of tooth alignment as a more manageable landmark transformation problem, which is further refined into a landmark coordinate generation task via diffusion model. To further encourage the integration of essential clinical knowledge, we design hierarchical constraints from three perspectives: dental-arch level, inter-tooth level, and individual-tooth level.
 
