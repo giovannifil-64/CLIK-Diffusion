@@ -10,9 +10,10 @@ This is the official repository of our paper **CLIK-Diffusion: Clinical Knowledg
 
 
 ### Updates
+- **[2026-01-26]** Inference code for crown-only meshes is provided!
 - **[2025-08-05]** *Version of Record* of our paper is available online, see [Paper](https://doi.org/10.1016/j.media.2025.103746)!
-- **[2025-07-25]** Dataset released!
-- **[2025-07-25]** Code released!
+- **[2025-07-25]** Dataset is released!
+- **[2025-07-25]** Inference code for full tooth meshes is released!
 - **[2025-07-22]** Our paper is accepted by *MedIA 2025*!
 
 
@@ -29,17 +30,32 @@ pip install -r requirements.txt
 ```
 
 ### Testing
-We now only provide case-by-case code for testing. To test our model ——
-* First download both checkpoints of landmark detection network and checkpoints of diffusion model from https://drive.google.com/drive/folders/1o9tVJ6p8Jbad3gu0ZUkX0tE5dp7Vkh9g?usp=sharing.
-* Then put all five downloaded checkpoints into [`./Code/checkpoint`](./Code/checkpoint).
-* We have prepared some data samples for you to start a quick test. The pre-orthodontic tooth meshes are stored in [`./Data`](./Data).
-* Run the following command:
+We now only provide case-by-case code for testing. We support two modes: **Full Tooth** (as presented in the paper) and **Crown-only** (including contact surfaces between adjacent teeth, which differ from intra-oral scans). To test our model ——
+* First download the checkpoints from https://drive.google.com/drive/folders/1o9tVJ6p8Jbad3gu0ZUkX0tE5dp7Vkh9g?usp=sharing. 
+  * For **Full Tooth**, download both the diffusion model checkpoint and the standard landmark detection checkpoints.
+  * For **Crown-only**, download the diffusion model checkpoint and the '[Crown]' version of the landmark detection checkpoints.
+* Then put all downloaded checkpoints into [`./Code/checkpoint`](./Code/checkpoint).
+* We have prepared some data samples for you to start a quick test.
+* Run the following command based on your needs:
+
+  **1. For Full Tooth (as in paper):**
+  The pre-orthodontic tooth meshes are stored in [`./Data/275`](./Data/275).
     ```python
     cd CLIK-Diffusion
     python Code/infer.py -i "./Data/275" -o "./Output"
     # add argument "-v" if you want see the results of landmark detection network
-    ``` 
-* You will find the post-orthodontic tooth meshes which are predicted by our method in [`./Output`](./Output).
+    ```
+  **2. For Crown-only:**
+  The pre-orthodontic crown meshes are stored in [`./Data/275_crown`](./Data/275_crown).
+    ```python
+    cd CLIK-Diffusion
+    python Code/infer_crown.py -i "./Data/275_crown" -o "./Output"
+    # add argument "-v" if you want see the results of landmark detection network
+    ```
+* You will find the post-orthodontic meshes which are predicted by our method in [`./Output`](./Output).
+* Note that if you want to try your own data, it is important to maintain a similar **scale and orientation** to our dental data.
+
+
 
 ### Open Dataset
 ★ Our dataset is available for reserach purpose only. To apply for our *CLIK-Diffusion* dataset, please fill out the [Data Access Agreement](./Data_Access_Agreement.pdf) and send the **signed e-copy** to <u>Yulong Dou (email: douyl2023@shanghaitech.edu.cn)</u> and <u>Zhiming Cui (email: cuizhm@shanghaitech.edu.cn)</u>, as well as **CC your supervisor**. We will send you the dataset link and password when recieving the data access form.
