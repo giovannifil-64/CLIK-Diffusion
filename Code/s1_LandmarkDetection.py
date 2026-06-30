@@ -6,6 +6,7 @@ import trimesh
 import json
 from natsort import natsorted
 from model.point_mlp import PointMLP
+from model.core_util import DEVICE
 
 
 def pc_normalize(pc):
@@ -52,23 +53,23 @@ def load_detection(
     molar_ckpt=None):
 
     model_incisor = PointMLP(num_classes=7, points=2048, embed_dim=128)
-    model_incisor.load_state_dict(torch.load(incisor_ckpt)['model'])
-    model_incisor.cuda()
+    model_incisor.load_state_dict(torch.load(incisor_ckpt, map_location=DEVICE)['model'])
+    model_incisor.to(DEVICE)
     model_incisor.eval()
 
     model_cuspid = PointMLP(num_classes=7, points=2048, embed_dim=128)
-    model_cuspid.load_state_dict(torch.load(cuspid_ckpt)['model'])
-    model_cuspid.cuda()
+    model_cuspid.load_state_dict(torch.load(cuspid_ckpt, map_location=DEVICE)['model'])
+    model_cuspid.to(DEVICE)
     model_cuspid.eval()
 
     model_premolar = PointMLP(num_classes=8, points=2048, embed_dim=128)
-    model_premolar.load_state_dict(torch.load(premolar_ckpt)['model'])
-    model_premolar.cuda()
+    model_premolar.load_state_dict(torch.load(premolar_ckpt, map_location=DEVICE)['model'])
+    model_premolar.to(DEVICE)
     model_premolar.eval()
 
     model_molar = PointMLP(num_classes=10, points=2048, embed_dim=128)
-    model_molar.load_state_dict(torch.load(molar_ckpt)['model'])
-    model_molar.cuda()
+    model_molar.load_state_dict(torch.load(molar_ckpt, map_location=DEVICE)['model'])
+    model_molar.to(DEVICE)
     model_molar.eval()
 
     return model_incisor, model_cuspid, model_premolar, model_molar
@@ -101,9 +102,9 @@ def detect_one_patient(
         sample_points = points[sample_idxes]    # (num_samples, 3)
         sample_normals = normals[sample_idxes]  # (num_samples, 3)
 
-        points_tensor = torch.from_numpy(sample_points).float().unsqueeze(0).cuda().permute(0, 2, 1)    # (1, 3, num_samples)
-        normals_tensor = torch.from_numpy(sample_normals).float().unsqueeze(0).cuda().permute(0, 2, 1)  # (1, 3, num_samples)
-        tid = torch.from_numpy(np.array([tooth_id])).long().cuda()
+        points_tensor = torch.from_numpy(sample_points).float().unsqueeze(0).to(DEVICE).permute(0, 2, 1)    # (1, 3, num_samples)
+        normals_tensor = torch.from_numpy(sample_normals).float().unsqueeze(0).to(DEVICE).permute(0, 2, 1)  # (1, 3, num_samples)
+        tid = torch.from_numpy(np.array([tooth_id])).long().to(DEVICE)
 
         with torch.no_grad():
             if tooth_id in [7, 8, 9, 10, 23, 24, 25, 26]:  # incisor

@@ -116,10 +116,10 @@ def query_points(landmarks, tooth_meshes_dict, Nsample=128, radius=2, scale=46):
 
 def load_diffusion(ckpt):
     netG = Network(diffusion_cfgs['unet'], diffusion_cfgs['beta_schedule'])
-    netG.load_state_dict(torch.load(ckpt), strict=False)
-    netG.to(torch.device('cuda'))
+    netG.load_state_dict(torch.load(ckpt, map_location=util.DEVICE), strict=False)
+    netG.to(util.DEVICE)
     netG.eval()
-    netG.set_new_noise_schedule()
+    netG.set_new_noise_schedule(device=util.DEVICE)
     return netG
 
 
@@ -137,8 +137,8 @@ def diffusion_one_patient(
         output: (torch.tensor): [B=1, 3, 256], the predicted landmark coordinates
     """
     # put data on CUDA
-    input = torch.from_numpy(input).float().transpose(1, 0).unsqueeze(0).cuda()   # (256, 5) -> (5, 256) -> (1, 5, 256)
-    descriptor = torch.from_numpy(descriptor).float().transpose(1, 0).unsqueeze(0).cuda()  # (256, Nsample*3) -> (Nsample*3, 256) -> (1, Nsample*3, 256)
+    input = torch.from_numpy(input).float().transpose(1, 0).unsqueeze(0).to(util.DEVICE)   # (256, 5) -> (5, 256) -> (1, 5, 256)
+    descriptor = torch.from_numpy(descriptor).float().transpose(1, 0).unsqueeze(0).to(util.DEVICE)  # (256, Nsample*3) -> (Nsample*3, 256) -> (1, Nsample*3, 256)
 
     # infer
     network.eval()

@@ -7,6 +7,18 @@ from scipy.spatial import cKDTree
 import matplotlib
 import trimesh
 
+def _select_device():
+    forced = os.environ.get('CLIK_DEVICE', '').strip().lower()
+    if forced in ('cpu', 'cuda', 'mps'):
+        return torch.device(forced)
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    if getattr(torch.backends, 'mps', None) is not None and torch.backends.mps.is_available():
+        return torch.device('mps')
+    return torch.device('cpu')
+
+DEVICE = _select_device()
+
 landmark_slices = [28, 38, 48, 56, 64, 71, 78, 85, 92, 99, 106, 114, 122, 132, 142,
                    152, 162, 170, 178, 185, 192, 199, 206, 213, 220, 228, 236, 246, 256]
 
@@ -300,8 +312,9 @@ def set_seed(seed, gl_seed=0):
     if seed >=0 and gl_seed>=0:
         seed += gl_seed
         torch.manual_seed(seed)
-        torch.cuda.manual_seed(seed)
-        torch.cuda.manual_seed_all(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(seed)
+            torch.cuda.manual_seed_all(seed)
         np.random.seed(seed)
         random.seed(seed)
         os.environ['PYTHONHASHSEED'] = str(seed)

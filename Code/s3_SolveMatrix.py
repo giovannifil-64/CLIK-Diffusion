@@ -5,6 +5,9 @@ import trimesh
 import model.core_util as util
 
 
+S3_DEVICE = util.DEVICE if util.DEVICE.type in ('cuda', 'cpu') else torch.device('cpu')
+
+
 def solve_and_trans_mesh(target_landmarks, initial_landmarks, tooth_meshes_dict, scale=46): 
     """
     Args:
@@ -15,8 +18,8 @@ def solve_and_trans_mesh(target_landmarks, initial_landmarks, tooth_meshes_dict,
         trans_mesh_dict
         transformation_dict
     """
-    pred = target_landmarks[0]          # torch(1, 3, 256) -> (3, 256)
-    init = initial_landmarks[0, :3]       # torch(1, 5, 256) -> (3, 256)
+    pred = target_landmarks[0].to(S3_DEVICE)          # torch(1, 3, 256) -> (3, 256)
+    init = initial_landmarks[0, :3].to(S3_DEVICE)       # torch(1, 5, 256) -> (3, 256)
 
     trans_mesh_dict = {}
     transformation_dict = {}  # 4*4 transformation matrix including rotation component and translation component
@@ -24,7 +27,7 @@ def solve_and_trans_mesh(target_landmarks, initial_landmarks, tooth_meshes_dict,
     for i, name in enumerate([*range(2, 16), *range(18, 32)]):
         if name in tooth_meshes_dict.keys():
             ori_mesh = tooth_meshes_dict[name]
-            ori_vert = torch.from_numpy(ori_mesh.vertices).double().cuda()   # vertices: (num, 3)  ori-scale
+            ori_vert = torch.from_numpy(ori_mesh.vertices).double().to(S3_DEVICE)   # vertices: (num, 3)  ori-scale
             ori_face = ori_mesh.faces
 
             start_slice = util.landmark_slices[i]

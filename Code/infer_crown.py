@@ -6,6 +6,7 @@ from s2_LandmarkDiffusion import load_diffusion, organize_input, query_points, d
 from s3_SolveMatrix import solve_and_trans_mesh, save_mesh, save_transformation
 
 
+os.environ.setdefault('PYTORCH_ENABLE_MPS_FALLBACK', '1')
 
 def main(args):
     set_seed(args.seed)
